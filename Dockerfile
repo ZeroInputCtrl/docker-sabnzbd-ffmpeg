@@ -1,4 +1,4 @@
-FROM linuxserver/sabnzbd
+FROM linuxserver/sabnzbd:unstable
 
 RUN apt-get update && \
     apt-get install -y \
