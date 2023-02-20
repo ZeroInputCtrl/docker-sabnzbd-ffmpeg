@@ -24,19 +24,19 @@ jobs:
         uses: actions/checkout@v3
       
       - name: Log in to Docker Hub
-        uses: docker/login-action
+        uses: docker/login-action@master
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
       
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action
+        uses: docker/metadata-action@master
         with:
           images: baneofserenity/sabnzbd-ffmpeg
       
       - name: Build and push Docker image
-        uses: docker/build-push-action
+        uses: docker/build-push-action@master
         with:
           context: .
           push: true
