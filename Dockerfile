@@ -1,4 +1,4 @@
-FROM nvidia/cuda:12.1.0-runtime-ubuntu22.04
+FROM nvidia/cuda:11.8.0-runtime-ubuntu22.04
 RUN ln -fs /usr/share/zoneinfo/UTC /etc/localtime
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt update
