@@ -16,15 +16,15 @@ RUN apt install -y sabnzbdplus
 
 WORKDIR /root
 
-RUN release=$(echo $(curl -s https://api.github.com/repos/sabnzbd/sabnzbd/releases/latest) | jq -r '.assets[] | select( .name | contains(".tar.gz") ) | .') \
-  && filename=$(echo "${release}" | jq -r '.name' ) \ 
-  && download_url=$(echo "${release}" | jq -r '.browser_download_url' ) \
-  && wget "${download_url}" \
-  && tar xvzf "${filename}" \
-  && rm "${filename}" \
-  && folder="$(ls | grep SAB)" \
-  && mv "${folder}" sabnzbd \
-  && (cd sabnzbd; pip3 install -r requirements.txt)
+RUN release=$(echo $(curl -s https://api.github.com/repos/sabnzbd/sabnzbd/releases/latest) | jq -r '.assets[] | select( .name | contains(".tar.gz") ) | .'); \
+  filename=$(echo "${release}" | jq -r '.name' ); \ 
+  download_url=$(echo "${release}" | jq -r '.browser_download_url' ); \
+  wget "${download_url}"; \
+  tar xvzf "${filename}"; \
+  rm "${filename}"; \
+  folder="$(ls | grep SAB)"; \
+  mv "${folder}" sabnzbd; \
+  (cd sabnzbd; pip3 install -r requirements.txt)
 
 RUN wget https://developer.download.nvidia.com/compute/cuda/12.1.1/local_installers/cuda-repo-debian11-12-1-local_12.1.1-530.30.02-1_amd64.deb \
   && dpkg -i cuda-repo-debian11-12-1-local_12.1.1-530.30.02-1_amd64.deb \
