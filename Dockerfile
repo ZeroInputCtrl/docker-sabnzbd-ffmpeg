@@ -20,7 +20,7 @@ RUN release=$(echo $(curl -s https://api.github.com/repos/sabnzbd/sabnzbd/releas
   && filename=$(echo "${release}" | jq -r '.name' ) \ 
   && download_url=$(echo "${release}" | jq -r '.browser_download_url' ) \
   && wget "${download_url}" \
-  &&tar xvzf "${filename}" \
+  && tar xvzf "${filename}" \
   && rm "${filename}" \
   && folder="$(ls | grep SAB)" \
   && mv "${folder}" sabnzbd \
