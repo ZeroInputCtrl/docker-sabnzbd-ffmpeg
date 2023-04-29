@@ -6,7 +6,9 @@ FROM debian:11
 # RUN ln -fs /usr/share/zoneinfo/UTC /etc/localtime
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt update
-RUN apt install -y ffmpeg software-properties-common wget curl jq python3-pip
+RUN apt install -y software-properties-common \
+  wget curl jq python3-pip build-essential yasm \
+  cmake libtool libc6 libc6-dev unzip libnuma1 libnuma-dev
 RUN add-apt-repository contrib
 RUN add-apt-repository non-free
 RUN apt update
@@ -32,6 +34,26 @@ RUN wget https://developer.download.nvidia.com/compute/cuda/12.1.1/local_install
   && apt -y install cuda
   # && apt update \
   # && apt install -y libnvidia-decode-530 libnvidia-encode-530
+RUN mkdir nvidia && (cd nvidia \
+  && git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git \
+  && (cd nv-codec-headers && sudo make install)
+RUN ( \
+  cd nvidia \
+  && git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg/ \
+  && ( \
+    cd ffmpeg/ \
+    && ./configure --enable-nonfree --enable-cuda-nvcc --enable-libnpp --extra-cflags=-I/usr/local/cuda/include --extra-ldflags=-L/usr/local/cuda/lib64 \
+    && make -j $(nproc) \
+    && ls -l ffmpeg \
+    && ./ffmpeg \
+    && make install \
+    && ls -l /usr/local/bin/ffmpeg \
+    && type -a ffmpeg \
+    ) \
+  )
 
+RUN echo "$PATH"
+ENV PATH=$PATH:/usr/local/bin
+RUN echo "$PATH"
 
 CMD ["/root/sabnzbd/SABnzbd.py"]
