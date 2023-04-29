@@ -85,8 +85,8 @@ RUN ( \
         --extra-ldflags=-L/usr/local/cuda/lib64 \
         --prefix="$HOME/ffmpeg_build" \
         --pkg-config-flags="--static" \
-        # --extra-cflags="-I$HOME/ffmpeg_build/include" \
-        # --extra-ldflags="-L$HOME/ffmpeg_build/lib" \
+        --extra-cflags="-I$HOME/ffmpeg_build/include" \
+        --extra-ldflags="-L$HOME/ffmpeg_build/lib" \
         --extra-libs="-lpthread -lm" \
         --ld="g++" \
         --bindir="$HOME/bin" \
