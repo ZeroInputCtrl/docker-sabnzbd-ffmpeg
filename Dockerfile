@@ -39,6 +39,8 @@ RUN wget https://developer.download.nvidia.com/compute/cuda/12.1.1/local_install
   && apt -y install cuda
   # && apt update \
   # && apt install -y libnvidia-decode-530 libnvidia-encode-530
+
+RUN apt install -y git
 RUN mkdir nvidia && (cd nvidia \
   && git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git \
   && (cd nv-codec-headers && sudo make install) )
