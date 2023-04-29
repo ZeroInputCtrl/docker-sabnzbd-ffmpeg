@@ -39,7 +39,7 @@ RUN wget https://developer.download.nvidia.com/compute/cuda/12.1.1/local_install
   && apt -y install cuda
   # && apt update \
   # && apt install -y libnvidia-decode-530 libnvidia-encode-530
-RUN apt remove gcc
+RUN apt remove -y gcc
 RUN apt install -y git libgcc-9-dev
 ENV PATH=$PATH:/usr/local/cuda/bin 
 RUN mkdir nvidia
