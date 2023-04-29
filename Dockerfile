@@ -40,23 +40,24 @@ RUN wget https://developer.download.nvidia.com/compute/cuda/12.1.1/local_install
   # && apt update \
   # && apt install -y libnvidia-decode-530 libnvidia-encode-530
 
-RUN apt install -y git
-RUN mkdir nvidia && (cd nvidia \
-  && git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git \
+RUN apt install -y git libgcc-9-dev
+RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 60 \
+  && update-alternatives --config gcc
+ENV PATH=$PATH:/usr/local/cuda/bin 
+RUN mkdir nvidia
+WORKDIR /root/nvidia
+RUN git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git \
   && (cd nv-codec-headers && sudo make install) )
+RUN git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg/
 RUN ( \
-  cd nvidia \
-  && git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg/ \
-  && ( \
-    cd ffmpeg/ \
-    && ./configure --enable-nonfree --enable-cuda-nvcc --enable-libnpp --extra-cflags=-I/usr/local/cuda/include --extra-ldflags=-L/usr/local/cuda/lib64 \
-    && make -j $(nproc) \
-    && ls -l ffmpeg \
-    && ./ffmpeg \
-    && make install \
-    && ls -l /usr/local/bin/ffmpeg \
-    && type -a ffmpeg \
-    ) \
+  cd ffmpeg/ \
+  && ./configure --enable-nonfree --enable-cuda-nvcc --enable-libnpp --extra-cflags=-I/usr/local/cuda/include --extra-ldflags=-L/usr/local/cuda/lib64 \
+  && make -j $(nproc) \
+  && ls -l ffmpeg \
+  && ./ffmpeg \
+  && make install \
+  && ls -l /usr/local/bin/ffmpeg \
+  && type -a ffmpeg \
   )
 
 RUN echo "$PATH"
