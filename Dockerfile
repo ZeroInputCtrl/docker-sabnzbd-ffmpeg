@@ -92,61 +92,76 @@ RUN ( \
         --bindir="$HOME/bin" \
         --toolchain=hardened \
         --enable-gpl \
-        --disable-stripping \
-        --disable-filter=resample \
-        --enable-cuvid \
         --enable-gnutls \
-        --enable-ladspa \
         --enable-libaom \
         --enable-libass \
-        --enable-libbluray \
-        --enable-libbs2b \
-        --enable-libcaca \
-        --enable-libcdio \
-        --enable-libcodec2 \
         --enable-libfdk-aac \
-        --enable-libflite \
-        --enable-libfontconfig \
         --enable-libfreetype \
-        --enable-libfribidi \
-        --enable-libgme \
-        --enable-libgsm \
-        --enable-libjack \
         --enable-libmp3lame \
-        --enable-libmysofa \
-        --enable-libnpp \
-        --enable-libopenjpeg \
-        --enable-libopenmpt \
         --enable-libopus \
-        --enable-libpulse \
-        --enable-librsvg \
-        --enable-librubberband \
-        --enable-libshine \
-        --enable-libsnappy \
-        --enable-libsoxr \
-        --enable-libspeex \
-        --enable-libssh \
-        --enable-libtheora \
-        --enable-libtwolame \
-        --enable-libvorbis \
-        --enable-libvidstab \
-        --enable-libvpx \
-        --enable-libwebp \
-        --enable-libx265 \
-        --enable-libxml2 \
-        --enable-libxvid \
-        --enable-libzmq \
-        --enable-libzvbi \
-        --enable-lv2 \
-        --enable-nvenc \
-        --enable-nonfree \
-        --enable-omx \
-        --enable-openal \
-        --enable-opencl \
-        --enable-opengl \
-        --enable-sdl2 \
-        --enable-cuda-nvcc \
+        --enable-libsvtav1 \
         --enable-libdav1d \
+        --enable-libvorbis \
+        --enable-libvpx \
+        --enable-libx264 \
+        --enable-libx265 \
+        --enable-nonfree \
+        # --enable-gpl \
+        # --disable-stripping \
+        # --disable-filter=resample \
+        # --enable-cuvid \
+        # --enable-gnutls \
+        # --enable-ladspa \
+        # --enable-libaom \
+        # --enable-libass \
+        # --enable-libbluray \
+        # --enable-libbs2b \
+        # --enable-libcaca \
+        # --enable-libcdio \
+        # --enable-libcodec2 \
+        # --enable-libfdk-aac \
+        # --enable-libflite \
+        # --enable-libfontconfig \
+        # --enable-libfreetype \
+        # --enable-libfribidi \
+        # --enable-libgme \
+        # --enable-libgsm \
+        # --enable-libjack \
+        # --enable-libmp3lame \
+        # --enable-libmysofa \
+        # --enable-libnpp \
+        # --enable-libopenjpeg \
+        # --enable-libopenmpt \
+        # --enable-libopus \
+        # --enable-libpulse \
+        # --enable-librsvg \
+        # --enable-librubberband \
+        # --enable-libshine \
+        # --enable-libsnappy \
+        # --enable-libsoxr \
+        # --enable-libspeex \
+        # --enable-libssh \
+        # --enable-libtheora \
+        # --enable-libtwolame \
+        # --enable-libvorbis \
+        # --enable-libvidstab \
+        # --enable-libvpx \
+        # --enable-libwebp \
+        # --enable-libx265 \
+        # --enable-libxml2 \
+        # --enable-libxvid \
+        # --enable-libzmq \
+        # --enable-libzvbi \
+        # --enable-lv2 \
+        # --enable-nvenc \
+        # --enable-nonfree \
+        # --enable-omx \
+        # --enable-openal \
+        # --enable-opencl \
+        # --enable-opengl \
+        # --enable-sdl2 \
+        # --enable-cuda-nvcc \
+        # --enable-libdav1d \
   && PATH="$HOME/bin:$PATH" make -j $(nproc) \
   && make install \
   && ls -l /usr/local/bin/ffmpeg \
