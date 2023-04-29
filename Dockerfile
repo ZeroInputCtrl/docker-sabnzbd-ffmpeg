@@ -39,12 +39,12 @@ RUN apt install -y libavcodec-extra58 libavdevice58 libavfilter-extra7 \
   zlib1g-dev libx264-dev nasm libx265-dev libnuma-dev \
   libvpx-dev libfdk-aac-dev libopus-dev libdav1d-dev gcc \
   g++ gnutls-bin libunistring-dev libaom-dev ladspa-sdk \
-  liblilv-dev libbluray liblzma-dev libbs2b-dev libcaca-dev \
+  liblilv-dev libbluray-dev liblzma-dev libbs2b-dev libcaca-dev \
   libcodec2-dev flite1-dev libgme-dev libgsm1-dev \
   libmysofa-dev libopenjp2-7-dev libopenmpt-dev librsvg2-dev \
   librubberband-dev libshine-dev libsnappy-dev libsoxr-dev \
   libssh-dev libspeex-dev libtheora-dev libtwolame-dev \
-  libvidstab-deb libwebp-dev libxvidcore-dev libzvbi-dev \
+  libvidstab-dev libwebp-dev libxvidcore-dev libzvbi-dev \
   libopenal-dev libjack-dev libcdio-paranoia-dev
 ENV PATH=$PATH:/usr/local/cuda/bin 
 RUN mkdir nvidia
