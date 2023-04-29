@@ -22,16 +22,6 @@ RUN apt install -y libjs-bootstrap libjs-jquery \
 
 WORKDIR /root
 
-RUN curl -s https://api.github.com/repos/sabnzbd/sabnzbd/releases/latest > release.json
-RUN jq -r '.assets[] | select( .name | contains(".tar.gz") ) | .' release.json > release
-RUN jq -r '.name' release > filename
-RUN jq -r '.browser_download_url' release > download_url
-RUN wget "$(cat download_url)"
-RUN tar xvzf "$(cat filename)" && rm "$(cat filename)"
-RUN folder="$(ls | grep SAB)" \
-  && mv "${folder}" sabnzbd
-RUN (cd sabnzbd; pip3 install -r requirements.txt)
-
 RUN wget https://developer.download.nvidia.com/compute/cuda/12.1.1/local_installers/cuda-repo-debian11-12-1-local_12.1.1-530.30.02-1_amd64.deb \
   && dpkg -i cuda-repo-debian11-12-1-local_12.1.1-530.30.02-1_amd64.deb \
   && cp /var/cuda-repo-debian11-12-1-local/cuda-*-keyring.gpg /usr/share/keyrings/ \
@@ -77,7 +67,7 @@ WORKDIR /root/ffmpeg_sources
 RUN (wget -O ffmpeg-snapshot.tar.bz2 https://ffmpeg.org/releases/ffmpeg-snapshot.tar.bz2 && \
   tar xjvf ffmpeg-snapshot.tar.bz2 )
 RUN ( \
-  cd ffmpeg_sources/ffmpeg/ \
+  cd ffmpeg/ \
   && ./configure \
         --extra-cflags=-I/usr/local/cuda/include \
         --extra-ldflags=-L/usr/local/cuda/lib64 \
@@ -151,5 +141,16 @@ RUN ( \
   && make install \
   )
   RUN apt clean autoclean
+  WORKDIR /root
+
+  RUN curl -s https://api.github.com/repos/sabnzbd/sabnzbd/releases/latest > release.json
+  RUN jq -r '.assets[] | select( .name | contains(".tar.gz") ) | .' release.json > release
+  RUN jq -r '.name' release > filename
+  RUN jq -r '.browser_download_url' release > download_url
+  RUN wget "$(cat download_url)"
+  RUN tar xvzf "$(cat filename)" && rm "$(cat filename)"
+  RUN folder="$(ls | grep SAB)" \
+    && mv "${folder}" sabnzbd
+  RUN (cd sabnzbd; pip3 install -r requirements.txt)
 
 CMD ["/root/sabnzbd/SABnzbd.py"]
