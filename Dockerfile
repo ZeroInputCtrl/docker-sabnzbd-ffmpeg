@@ -22,7 +22,8 @@ RUN apt install -y libjs-bootstrap libjs-jquery \
 
 WORKDIR /root
 
-RUN curl -s https://api.github.com/repos/sabnzbd/sabnzbd/releases/latest > release.json | jq -r '.assets[] | select( .name | contains(".tar.gz") ) | .' release.json > release
+RUN curl -s https://api.github.com/repos/sabnzbd/sabnzbd/releases/latest > release.json
+RUN jq -r '.assets[] | select( .name | contains(".tar.gz") ) | .' release.json > release
 RUN jq -r '.name' release > filename
 RUN jq -r '.browser_download_url' release > download_url
 RUN wget "$(cat download_url)"
