@@ -45,7 +45,7 @@ ENV PATH=$PATH:/usr/local/cuda/bin
 RUN mkdir nvidia
 WORKDIR /root/nvidia
 RUN git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git \
-  && (cd nv-codec-headers && sudo make install) )
+  && (cd nv-codec-headers && sudo make install)
 RUN git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg/
 RUN ( \
   cd ffmpeg/ \
