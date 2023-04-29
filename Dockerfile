@@ -41,7 +41,9 @@ RUN wget https://developer.download.nvidia.com/compute/cuda/12.1.1/local_install
   # && apt install -y libnvidia-decode-530 libnvidia-encode-530
 RUN apt remove -y gcc
 RUN apt install -y git libgcc-9-dev
-RUN apt build-dep ffmpeg
+RUN apt install -y libavcodec-extra58 libavdevice58 libavfilter-extra7 \
+  && libavformat58 libavresample4 libavutil56 libc6 libpostproc55 \
+  && libsdl2-2.0-0 libswresample3 libswscale5
 ENV PATH=$PATH:/usr/local/cuda/bin 
 RUN mkdir nvidia
 WORKDIR /root/nvidia
