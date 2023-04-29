@@ -27,7 +27,8 @@ RUN wget https://developer.download.nvidia.com/compute/cuda/12.1.1/local_install
   && cp /var/cuda-repo-debian11-12-1-local/cuda-*-keyring.gpg /usr/share/keyrings/ \
   && apt update \
   && apt -y install cuda \
-  && rm -rf /var/cuda-repo-debian11-12-1-local /root/cuda-repo-debian11-12-1-local_12.1.1-530.30.02-1_amd64.deb
+  && rm -rf /var/cuda-repo-debian11-12-1-local /root/cuda-repo-debian11-12-1-local_12.1.1-530.30.02-1_amd64.deb \
+  && apt -y remove nvidia-*
   # && apt update \
   # && apt install -y libnvidia-decode-530 libnvidia-encode-530
 RUN apt install -y libavcodec-extra58 libavdevice58 libavfilter-extra7 \
