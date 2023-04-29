@@ -14,7 +14,11 @@ RUN add-apt-repository non-free
 RUN apt update
 
 # RUN apt install -y sabnzbdplus nvidia-driver-530
-RUN apt install -y sabnzbdplus
+RUN apt install -y libjs-bootstrap libjs-jquery \
+  libjs-jquery-ui libjs-moment lsb-base par2 \
+  python3-chardet python3-cheetah python3-cherrypy3 \
+  python3-configobj python3-cryptography python3-feedparser \
+  python3-portend python3-sabyenc python3-six unrar rar
 
 WORKDIR /root
 
