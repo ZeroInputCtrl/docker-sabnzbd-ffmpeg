@@ -26,7 +26,8 @@ RUN wget https://developer.download.nvidia.com/compute/cuda/12.1.1/local_install
   && dpkg -i cuda-repo-debian11-12-1-local_12.1.1-530.30.02-1_amd64.deb \
   && cp /var/cuda-repo-debian11-12-1-local/cuda-*-keyring.gpg /usr/share/keyrings/ \
   && apt update \
-  && apt -y install cuda
+  && apt -y install cuda \
+  && rm -rf /var/cuda-repo-debian11-12-1-local /root/cuda-repo-debian11-12-1-local_12.1.1-530.30.02-1_amd64.deb
   # && apt update \
   # && apt install -y libnvidia-decode-530 libnvidia-encode-530
 RUN apt install -y libavcodec-extra58 libavdevice58 libavfilter-extra7 \
@@ -64,9 +65,9 @@ WORKDIR /root/ffmpeg_sources
 #   PATH="/root/bin:$PATH" make && \
 #   make install \
 #   cp 
-RUN (wget -O ffmpeg-snapshot.tar.bz2 https://ffmpeg.org/releases/ffmpeg-snapshot.tar.bz2 && \
-  tar xjvf ffmpeg-snapshot.tar.bz2 )
-RUN ( \
+RUN wget -O ffmpeg-snapshot.tar.bz2 https://ffmpeg.org/releases/ffmpeg-snapshot.tar.bz2 && \
+  tar xjvf ffmpeg-snapshot.tar.bz2 \
+  && ( \
   cd ffmpeg/ \
   && ./configure \
         --extra-cflags=-I/usr/local/cuda/include \
@@ -139,6 +140,7 @@ RUN ( \
         # --disable-filter=resample \
   && make -j $(nproc) \
   && make install \
+  && rm -rf /root/ffmpeg_sources \
   )
   RUN apt clean autoclean
   WORKDIR /root
