@@ -77,19 +77,24 @@ RUN mkdir nvidia
 WORKDIR /root/nvidia
 RUN git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git \
   && (cd nv-codec-headers && sudo make install)
-RUN git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg/
+# RUN git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg/
+
+RUN mkdir -p ffmpeg_sources bin
+RUN (cd ffmpeg_sources && \
+  wget -O ffmpeg-snapshot.tar.bz2 https://ffmpeg.org/releases/ffmpeg-snapshot.tar.bz2 && \
+  tar xjvf ffmpeg-snapshot.tar.bz2 )
 RUN ( \
-  cd ffmpeg/ \
+  cd ffmpeg_sources/ffmpeg/ \
   && ./configure \
         --extra-cflags=-I/usr/local/cuda/include \
         --extra-ldflags=-L/usr/local/cuda/lib64 \
-        --prefix="$HOME/ffmpeg_build" \
+        --prefix="/root/ffmpeg_build" \
         --pkg-config-flags="--static" \
-        --extra-cflags="-I$HOME/ffmpeg_build/include" \
-        --extra-ldflags="-L$HOME/ffmpeg_build/lib" \
+        --extra-cflags="-I/root/ffmpeg_build/include" \
+        --extra-ldflags="-L/root/ffmpeg_build/lib" \
         --extra-libs="-lpthread -lm" \
         --ld="g++" \
-        --bindir="$HOME/bin" \
+        --bindir="/root/bin" \
         --toolchain=hardened \
         --enable-gpl \
         --enable-gnutls \
@@ -162,7 +167,7 @@ RUN ( \
         # --enable-sdl2 \
         # --enable-cuda-nvcc \
         # --enable-libdav1d \
-  && PATH="$HOME/bin:$PATH" make -j $(nproc) \
+  && PATH="/root/bin:$PATH" make -j $(nproc) \
   && make install \
   && ls -l /usr/local/bin/ffmpeg \
   && type -a ffmpeg \
