@@ -39,39 +39,23 @@ RUN wget https://developer.download.nvidia.com/compute/cuda/12.1.1/local_install
   && apt -y install cuda
   # && apt update \
   # && apt install -y libnvidia-decode-530 libnvidia-encode-530
-RUN apt remove -y gcc
-RUN apt install -y git libgcc-9-dev
 RUN apt install -y libavcodec-extra58 libavdevice58 libavfilter-extra7 \
   libavformat58 libavresample4 libavutil56 libc6 libpostproc55 \
-  libsdl2-2.0-0 libswresample3 libswscale5
-RUN apt install -y autoconf \
-  automake \
-  cmake \
-  git-core \
-  libass-dev \
-  libfreetype6-dev \
-  libgnutls28-dev \
-  libmp3lame-dev \
-  libsdl2-dev \
-  libva-dev \
-  libvdpau-dev \
-  libvorbis-dev \
-  libxcb1-dev \
-  libxcb-shm0-dev \
-  libxcb-xfixes0-dev \
-  meson \
-  ninja-build \
-  pkg-config \
-  texinfo \
-  zlib1g-dev\
-  libx264-dev \
-  nasm \
-  libx265-dev \
-  libnuma-dev \
-  libvpx-dev \
-  libfdk-aac-dev \
-  libopus-dev \
-  libdav1d-dev
+  libsdl2-2.0-0 libswresample3 libswscale5 autoconf \
+  automake cmake git-core libass-dev libfreetype6-dev \
+  libgnutls28-dev libmp3lame-dev libsdl2-dev libva-dev \
+  libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev \
+  libxcb-xfixes0-dev meson ninja-build pkg-config texinfo \
+  zlib1g-dev libx264-dev nasm libx265-dev libnuma-dev \
+  libvpx-dev libfdk-aac-dev libopus-dev libdav1d-dev gcc \
+  g++ gnutls-bin libunistring-dev libaom-dev ladspa-sdk \
+  liblilv-dev libbluray liblzma-dev libbs2b-dev libcaca-dev \
+  libcodec2-dev flite1-dev libgme-dev libgsm1-dev \
+  libmysofa-dev libopenjp2-7-dev libopenmpt-dev librsvg2-dev \
+  librubberband-dev libshine-dev libsnappy-dev libsoxr-dev \
+  libssh-dev libspeex-dev libtheora-dev libtwolame-dev \
+  libvidstab-deb libwebp-dev libxvidcore-dev libzvbi-dev \
+  libopenal-dev libjack-dev libcdio-paranoia-dev
 ENV PATH=$PATH:/usr/local/cuda/bin 
 RUN mkdir nvidia
 WORKDIR /root/nvidia
@@ -79,9 +63,18 @@ RUN git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git \
   && (cd nv-codec-headers && sudo make install)
 # RUN git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg/
 
+WORKDIR /root
 RUN mkdir -p ffmpeg_sources bin
-RUN (cd ffmpeg_sources && \
-  wget -O ffmpeg-snapshot.tar.bz2 https://ffmpeg.org/releases/ffmpeg-snapshot.tar.bz2 && \
+ENV PATH=$PATH:/root/bin
+WORKDIR /root/ffmpeg_sources
+# RUN git clone https://gitlab.com/AOMediaCodec/SVT-AV1.git && \
+#   mkdir -p SVT-AV1/build && \
+#   cd SVT-AV1/build && \
+#   PATH="/root/bin:$PATH" cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX="/root" -DCMAKE_BUILD_TYPE=Release -DBUILD_DEC=OFF -DBUILD_SHARED_LIBS=OFF .. && \
+#   PATH="/root/bin:$PATH" make && \
+#   make install \
+#   cp 
+RUN (wget -O ffmpeg-snapshot.tar.bz2 https://ffmpeg.org/releases/ffmpeg-snapshot.tar.bz2 && \
   tar xjvf ffmpeg-snapshot.tar.bz2 )
 RUN ( \
   cd ffmpeg_sources/ffmpeg/ \
@@ -104,77 +97,59 @@ RUN ( \
         --enable-libfreetype \
         --enable-libmp3lame \
         --enable-libopus \
-        --enable-libsvtav1 \
         --enable-libdav1d \
         --enable-libvorbis \
         --enable-libvpx \
         --enable-libx264 \
         --enable-libx265 \
         --enable-nonfree \
-        # --enable-gpl \
+        --enable-cuvid \
+        --enable-ladspa \
+        --enable-libbluray \
+        --enable-libbs2b \
+        --enable-libcaca \
+        --enable-libcdio \
+        --enable-libcodec2 \
+        --enable-libflite \
+        --enable-libfontconfig \
+        --enable-libfribidi \
+        --enable-libgme \
+        --enable-libgsm \
+        --enable-libjack \
+        --enable-libmysofa \
+        --enable-libnpp \
+        --enable-libopenjpeg \
+        --enable-libopenmpt \
+        --enable-libpulse \
+        --enable-librsvg \
+        --enable-librubberband \
+        --enable-libshine \
+        --enable-libsnappy \
+        --enable-libsoxr \
+        --enable-libspeex \
+        --enable-libssh \
+        --enable-libtheora \
+        --enable-libtwolame \
+        --enable-libvidstab \
+        --enable-libwebp \
+        --enable-libxml2 \
+        --enable-libxvid \
+        --enable-libzvbi \
+        --enable-lv2 \
+        --enable-nvenc \
+        --enable-openal \
+        --enable-opencl \
+        --enable-opengl \
+        --enable-sdl2 \
+        --enable-cuda-nvcc \
+        # --enable-libsvtav1 \
+        # --enable-omx \
+        # --enable-libzmq \
         # --disable-stripping \
         # --disable-filter=resample \
-        # --enable-cuvid \
-        # --enable-gnutls \
-        # --enable-ladspa \
-        # --enable-libaom \
-        # --enable-libass \
-        # --enable-libbluray \
-        # --enable-libbs2b \
-        # --enable-libcaca \
-        # --enable-libcdio \
-        # --enable-libcodec2 \
-        # --enable-libfdk-aac \
-        # --enable-libflite \
-        # --enable-libfontconfig \
-        # --enable-libfreetype \
-        # --enable-libfribidi \
-        # --enable-libgme \
-        # --enable-libgsm \
-        # --enable-libjack \
-        # --enable-libmp3lame \
-        # --enable-libmysofa \
-        # --enable-libnpp \
-        # --enable-libopenjpeg \
-        # --enable-libopenmpt \
-        # --enable-libopus \
-        # --enable-libpulse \
-        # --enable-librsvg \
-        # --enable-librubberband \
-        # --enable-libshine \
-        # --enable-libsnappy \
-        # --enable-libsoxr \
-        # --enable-libspeex \
-        # --enable-libssh \
-        # --enable-libtheora \
-        # --enable-libtwolame \
-        # --enable-libvorbis \
-        # --enable-libvidstab \
-        # --enable-libvpx \
-        # --enable-libwebp \
-        # --enable-libx265 \
-        # --enable-libxml2 \
-        # --enable-libxvid \
-        # --enable-libzmq \
-        # --enable-libzvbi \
-        # --enable-lv2 \
-        # --enable-nvenc \
-        # --enable-nonfree \
-        # --enable-omx \
-        # --enable-openal \
-        # --enable-opencl \
-        # --enable-opengl \
-        # --enable-sdl2 \
-        # --enable-cuda-nvcc \
-        # --enable-libdav1d \
-  && PATH="/root/bin:$PATH" make -j $(nproc) \
+  && make -j $(nproc) \
   && make install \
-  && ls -l /usr/local/bin/ffmpeg \
-  && type -a ffmpeg \
   )
-
-RUN echo "$PATH"
-ENV PATH=$PATH:/usr/local/bin
-RUN echo "$PATH"
+  RUN apt clean autoclean
 
 CMD ["/root/sabnzbd/SABnzbd.py"]
