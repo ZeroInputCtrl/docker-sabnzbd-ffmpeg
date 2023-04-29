@@ -63,7 +63,15 @@ RUN apt install -y autoconf \
   ninja-build \
   pkg-config \
   texinfo \
-  zlib1g-dev
+  zlib1g-dev\
+  libx264-dev \
+  nasm \
+  libx265-dev \
+  libnuma-dev \
+  libvpx-dev \
+  libfdk-aac-dev \
+  libopus-dev \
+  libdav1d-dev
 ENV PATH=$PATH:/usr/local/cuda/bin 
 RUN mkdir nvidia
 WORKDIR /root/nvidia
@@ -72,9 +80,16 @@ RUN git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git \
 RUN git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg/
 RUN ( \
   cd ffmpeg/ \
-  && ./configure --prefix=/usr/local/ffmpeg-nvidia \
+  && ./configure \
         --extra-cflags=-I/usr/local/cuda/include \
         --extra-ldflags=-L/usr/local/cuda/lib64 \
+        --prefix="$HOME/ffmpeg_build" \
+        --pkg-config-flags="--static" \
+        # --extra-cflags="-I$HOME/ffmpeg_build/include" \
+        # --extra-ldflags="-L$HOME/ffmpeg_build/lib" \
+        --extra-libs="-lpthread -lm" \
+        --ld="g++" \
+        --bindir="$HOME/bin" \
         --toolchain=hardened \
         --enable-gpl \
         --disable-stripping \
@@ -131,9 +146,8 @@ RUN ( \
         --enable-opengl \
         --enable-sdl2 \
         --enable-cuda-nvcc \
-  && make -j $(nproc) \
-  && ls -l ffmpeg \
-  && ./ffmpeg \
+        --enable-libdav1d \
+  && PATH="$HOME/bin:$PATH" make -j $(nproc) \
   && make install \
   && ls -l /usr/local/bin/ffmpeg \
   && type -a ffmpeg \
