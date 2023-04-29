@@ -44,64 +44,26 @@ RUN apt install -y git libgcc-9-dev
 RUN apt install -y libavcodec-extra58 libavdevice58 libavfilter-extra7 \
   libavformat58 libavresample4 libavutil56 libc6 libpostproc55 \
   libsdl2-2.0-0 libswresample3 libswscale5
-# RUN apt install cleancss debhelper-compat flite1-dev \
-#     frei0r-plugins-dev ladspa-sdk libaom-dev libaribb24-dev \
-#     libass-dev libbluray-dev libbs2b-dev libbz2-dev \
-#     libcaca-dev libcdio-paranoia-dev libchromaprint-dev \
-#     libcodec2-dev libdc1394-22-dev libdrm-dev \
-#     libfdk-aac-dev libffmpeg-nvenc-dev libfontconfig1-dev \
-#     libfreetype6-dev libfribidi-dev libgl1-mesa-dev \
-#     libgme-dev libgnutls28-dev libgsm1-dev libiec61883-dev \
-#     libavc1394-dev libjack-jackd2-dev liblensfun-dev \
-#     liblilv-dev liblzma-dev libmp3lame-dev libmysofa-dev \
-#     libnvidia-compute-530-server libnvidia-decode-530-server \
-#     libnvidia-encode-530-server libopenal-dev \
-#     libomxil-bellagio-dev \
-#     libopencore-amrnb-dev \
-#     libopencore-amrwb-dev \
-#     libopenjp2-7-dev \
-#     libopenmpt-dev \
-#     libopus-dev \
-#     libpulse-dev \
-#     librubberband-dev \
-#     librsvg2-dev \
-#     libsctp-dev \
-#     libsdl2-dev \
-#     libshine-dev \
-#     libsnappy-dev \
-#     libsoxr-dev \
-#     libspeex-dev \
-#     libssh-gcrypt-dev \
-#     libtesseract-dev \
-#     libtheora-dev \
-#     libtwolame-dev \
-#     libva-dev \
-#     libvdpau-dev \
-#     libvidstab-dev \
-#     libvo-amrwbenc-dev \
-#     libvorbis-dev \
-#     libvpx-dev \
-#     libwavpack-dev \
-#     libwebp-dev \
-#     libx264-dev \
-#     libx265-dev \
-#     libxcb-shape0-dev \
-#     libxcb-shm0-dev \
-#     libxcb-xfixes0-dev \
-#     libxml2-dev \
-#     libxv-dev \
-#     libxvidcore-dev \
-#     libxvmc-dev \
-#     libzmq3-dev \
-#     libzvbi-dev \
-#     nasm \
-#     node-less \
-#     ocl-icd-opencl-dev \
-#     pkg-config \
-#     texinfo \
-#     tree \
-#     wget \
-#     zlib1g-dev
+RUN apt install autoconf \
+  automake \
+  cmake \
+  git-core \
+  libass-dev \
+  libfreetype6-dev \
+  libgnutls28-dev \
+  libmp3lame-dev \
+  libsdl2-dev \
+  libva-dev \
+  libvdpau-dev \
+  libvorbis-dev \
+  libxcb1-dev \
+  libxcb-shm0-dev \
+  libxcb-xfixes0-dev \
+  meson \
+  ninja-build \
+  pkg-config \
+  texinfo \
+  zlib1g-dev
 ENV PATH=$PATH:/usr/local/cuda/bin 
 RUN mkdir nvidia
 WORKDIR /root/nvidia
