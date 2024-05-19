@@ -8,4 +8,4 @@ RUN apt update; apt install -y sabnzbdplus && \
     /var/tmp/*
 ENTRYPOINT []
 EXPOSE 8080
-CMD "/usr/bin/sabnzbdplus --config-file /config --server 0.0.0.0"
+CMD ["/usr/bin/sabnzbdplus", "--config-file", "/config", "--server", "0.0.0.0"]
