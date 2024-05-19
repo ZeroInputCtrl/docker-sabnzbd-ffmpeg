@@ -1,7 +1,11 @@
 # FROM nvidia/cuda:12.1.0-runtime-ubuntu22.04
 FROM linuxserver/ffmpeg:latest
 
-RUN apt update; apt install -y sabnzbdplus && \
+RUN apt update && \
+  apt install -y software-properties-common && \
+  add-apt-repository -y ppa:jcfp/nobetas && \
+  apt update && \
+  apt install -y sabnzbdplus && \
   echo "**** clean up ****" && \
   rm -rf \
     /var/lib/apt/lists/* \
