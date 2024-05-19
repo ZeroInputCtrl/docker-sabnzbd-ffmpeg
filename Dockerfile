@@ -6,5 +6,5 @@ RUN apt update; apt install -y sabnzbdplus && \
   rm -rf \
     /var/lib/apt/lists/* \
     /var/tmp/*
-ENTRYPOINT '/bin/sh -c'
-CMD ["sabnzbdplus", "--config-file /config", "--server 0.0.0.0"]
+ENTRYPOINT []
+CMD "sabnzbdplus --config-file /config --server 0.0.0.0"
