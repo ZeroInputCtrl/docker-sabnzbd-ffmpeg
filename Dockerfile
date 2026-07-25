@@ -2,7 +2,7 @@
 FROM linuxserver/ffmpeg:latest
 
 RUN apt update && \
-  apt install -y software-properties-common wavpack cuetools sox && \
+  apt install -y software-properties-common wavpack cuetools sox wvunpack && \
   add-apt-repository -y ppa:jcfp/nobetas && \
   apt update && \
   apt install -y sabnzbdplus && \
